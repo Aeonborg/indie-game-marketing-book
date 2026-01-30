@@ -1,25 +1,30 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="UTF-8">
   <title>Indie Game Marketing Book</title>
   <style>
-    body { font-family: Arial; max-width: 800px; margin: auto; padding: 20px; }
-    button { padding: 10px; margin: 5px 0; }
+    body { font-family: Arial, sans-serif; max-width: 800px; margin: auto; padding: 20px; }
+    h1 { text-align: center; }
+    button { padding: 10px; margin: 5px 0; cursor: pointer; }
     input { padding: 8px; margin: 5px 0; width: 100%; }
     #chapters { margin-top: 20px; }
+    .auth-box { background: #f2f2f2; padding: 15px; border-radius: 8px; }
   </style>
 </head>
 <body>
 
   <h1>📘 Indie Game Marketing: Ultimate Guide</h1>
-  <p>Read the first 3 chapters free. Register to unlock the full book.</p>
+  <p>Read Chapters 1–3 free. Register to unlock the full book.</p>
 
-  <h2>Register / Login</h2>
-  <input id="email" type="email" placeholder="Email">
-  <input id="password" type="password" placeholder="Password">
-  <button onclick="register()">Register</button>
-  <button onclick="login()">Login</button>
-  <button onclick="logout()">Logout</button>
+  <div class="auth-box">
+    <h2>Register / Login</h2>
+    <input id="email" type="email" placeholder="Email">
+    <input id="password" type="password" placeholder="Password">
+    <button onclick="register()">Register</button>
+    <button onclick="login()">Login</button>
+    <button onclick="logout()">Logout</button>
+  </div>
 
   <hr>
 
@@ -28,39 +33,52 @@
 
   <div id="chapters"></div>
 
-  <!-- Supabase Library -->
+  <!-- Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
   <script>
+  document.addEventListener("DOMContentLoaded", () => {
+
     const supabase = window.supabase.createClient(
       "https://yapeslxvrhvxbramrjhh.supabase.co",
       "sb_publishable_k0IQraaeYBMuQ3vs0-D66Q_PXNKT228"
     );
 
+    const emailInput = document.getElementById("email");
+    const passwordInput = document.getElementById("password");
+    const container = document.getElementById("chapters");
+
     async function register() {
-      const email = emailInput.value;
-      const password = passwordInput.value;
-      const { error } = await supabase.auth.signUp({ email, password });
+      const { error } = await supabase.auth.signUp({
+        email: emailInput.value,
+        password: passwordInput.value
+      });
       alert(error ? error.message : "Registered! Now login.");
     }
 
     async function login() {
-      const email = emailInput.value;
-      const password = passwordInput.value;
-      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      const { error } = await supabase.auth.signInWithPassword({
+        email: emailInput.value,
+        password: passwordInput.value
+      });
       alert(error ? error.message : "Logged in!");
     }
 
     async function logout() {
       await supabase.auth.signOut();
       alert("Logged out");
+      container.innerHTML = "";
     }
 
     async function loadFree() {
-      const { data } = await supabase
+      const { data, error } = await supabase
         .from("chapters")
         .select("*")
         .eq("is_free", true);
+
+      if (error) {
+        alert("Error loading free chapters");
+        return;
+      }
 
       showChapters("Free Chapters", data);
     }
@@ -79,15 +97,20 @@
     }
 
     function showChapters(title, chapters) {
-      const container = document.getElementById("chapters");
       container.innerHTML = `<h2>${title}</h2>`;
       chapters.forEach(ch => {
         container.innerHTML += `<h3>${ch.title}</h3><p>${ch.content}</p>`;
       });
     }
 
-    const emailInput = document.getElementById("email");
-    const passwordInput = document.getElementById("password");
+    // Make functions accessible to buttons
+    window.register = register;
+    window.login = login;
+    window.logout = logout;
+    window.loadFree = loadFree;
+    window.loadAll = loadAll;
+
+  });
   </script>
 
 </body>
