@@ -19,54 +19,59 @@
 </head>
 <body>
 
-  <!-- 🔥 Fullscreen Book Slider -->
-  <section class="creative-fullpage--slider">
-    <div class="banner-horizontal">
-      <div class="swiper swiper-container-h">
-        <div class="swiper-wrapper" id="bookSlides">
-          <!-- Chapters from Supabase will load here -->
-          <div class="swiper-slide" style="text-align:center;">
-            <div class="slider-inner">
-              <div class="loading-content">
-                <h1>Loading Book...</h1>
-              </div>
-            </div>
-          </div>
+  <!-- 🔥 New Layout: Fixed Header with Scrollable Chapters -->
+  <div class="book-container">
+    
+    <!-- Fixed Header with Current Chapter Title -->
+    <header class="book-header">
+      <div class="header-content">
+        <div class="chapter-info">
+          <h1 class="current-chapter-title" id="currentChapterTitle">Loading...</h1>
+          <div class="chapter-progress" id="chapterProgress">Chapter 1 of 14</div>
         </div>
-
-        <!-- Navigation Buttons -->
-        <div class="swiper-button-wrapper">
-          <div class="swiper-button-next"></div>
-          <div class="swiper-button-prev"></div>
-        </div>
-
-        <!-- Progress bar -->
-        <div class="slider-pagination-area">
-          <h5 class="slide-range one">01</h5>
-          <div class="swiper-pagination swiper-pagination-progressbar"></div>
-          <h5 class="slide-range total">--</h5>
+        <div class="header-actions">
+          <button class="read-mode-btn" id="readModeToggle">
+            <i class="fas fa-book-reader"></i> Read Mode
+          </button>
+          <button class="nav-toggle-btn" id="navToggle">
+            <i class="fas fa-th-list"></i> All Chapters
+          </button>
         </div>
       </div>
-    </div>
+    </header>
 
-    <!-- 📚 Floating Chapter Navigation Column -->
-    <div class="chapter-navigation" id="chapterNav">
-      <div class="chapter-nav-toggle" onclick="toggleChapterNav()">
-        <i class="fas fa-bars"></i>
-      </div>
-      <div class="chapter-nav-content">
-        <div class="chapter-nav-header">
-          <h3>Chapters</h3>
-          <button class="close-nav" onclick="toggleChapterNav()">
+    <!-- Main Content Area -->
+    <main class="book-main">
+      
+      <!-- Left: All Chapters List -->
+      <aside class="chapters-sidebar" id="chaptersSidebar">
+        <div class="sidebar-header">
+          <h2>All Chapters</h2>
+          <button class="close-sidebar" id="closeSidebar">
             <i class="fas fa-times"></i>
           </button>
         </div>
-        <div class="chapter-list" id="chapterList">
-          <!-- Chapters will be dynamically loaded here -->
+        <div class="chapters-list" id="chaptersList">
+          <!-- Chapters will be loaded here -->
+          <div class="loading-chapters">
+            <div class="loading-spinner"></div>
+            <p>Loading chapters...</p>
+          </div>
         </div>
-      </div>
-    </div>
-  </section>
+      </aside>
+
+      <!-- Right: Chapter Content Viewer -->
+      <section class="chapter-viewer" id="chapterViewer">
+        <!-- Current Chapter Content will be loaded here -->
+        <div class="loading-content">
+          <h2>Loading Content...</h2>
+          <p>Please wait while we load the book content.</p>
+        </div>
+      </section>
+
+    </main>
+
+  </div>
 
   <!-- 🔒 Register Popup -->
   <div id="registerPopup">
@@ -77,10 +82,10 @@
     </div>
   </div>
 
-  <!-- 🔹 jQuery (required for Swiper initialization in script) -->
+  <!-- 🔹 jQuery -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-  <!-- 🔹 Swiper JS -->
+  <!-- 🔹 Swiper JS (still used for some effects) -->
   <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
   <!-- 🔹 Supabase v2 -->
