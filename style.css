@@ -86,7 +86,7 @@ h1, h2, h3 {
 =============================== */
 .swiper-content {
   position: absolute;
-  top: 40%;  /* Move content higher - was 50% */
+  top: 10%;  /* Move content higher - was 50% */
   transform: translateY(-50%);
   left: 120px;  /* More left margin */
   width: 850px;  /* Wider for better layout */
