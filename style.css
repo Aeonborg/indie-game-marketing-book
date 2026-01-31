@@ -82,17 +82,17 @@ h1, h2, h3 {
 
 /* ===============================
    SWIPER CONTENT - Text Overlay
-   🔥 UPDATED: Content centered in left-center area (matching red box)
+   🔥 UPDATED: Content positioned in left-center area (red box region)
 =============================== */
 .swiper-content {
   position: absolute;
   top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);  /* Center both horizontally and vertically */
-  width: 900px;  /* Width matching the red box area */
-  max-width: calc(100vw - 100px);  /* Responsive safety net */
+  transform: translateY(-50%);
+  left: 10%;  /* Start from 10% from left edge */
+  width: 60%;  /* Take up 60% of screen width */
+  max-width: 900px;
   z-index: 2;
-  max-height: 80vh;  /* Slightly shorter to match red box height */
+  max-height: 75vh;
   overflow-y: auto;
   overflow-x: hidden;
   padding-right: 20px;
@@ -528,9 +528,9 @@ h1, h2, h3 {
 =============================== */
 @media (max-width: 991px) {
   .swiper-content {
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 700px;  /* Slightly smaller for tablets */
+    left: 5%;
+    transform: translateY(-50%);
+    width: 70%;
     max-width: calc(100vw - 80px);
   }
 
@@ -574,9 +574,10 @@ h1, h2, h3 {
 =============================== */
 @media screen and (max-width: 767px) {
   .swiper-content {
-    left: 50%;
-    transform: translate(-50%, 0);  /* Center horizontally, no vertical centering */
-    width: auto;  /* Full width on mobile */
+    left: 20px;
+    right: 20px;
+    transform: none;
+    width: auto;
     max-width: calc(100vw - 40px);
     top: 80px;
     max-height: calc(100vh - 200px);
