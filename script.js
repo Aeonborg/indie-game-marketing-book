@@ -8,9 +8,9 @@ const SUPABASE_ANON_KEY = "sb_publishable_k0IQraaeYBMuQ3vs0-D66Q_PXNKT228";
 const { createClient } = supabase;
 const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-// Global swiper instance
-let swiperInstance = null;
+// Global variables
 let chaptersData = [];
+let currentChapterIndex = 0;
 
 // ===============================
 // 📹 CUSTOM TAG PARSER
@@ -55,50 +55,17 @@ function getBackgroundImage(chapterNumber) {
 }
 
 // ===============================
-// 📹 CHAPTER NAVIGATION FUNCTIONS
+// 📹 BUILD CHAPTERS LIST
 // ===============================
-function toggleChapterNav() {
-  const nav = document.getElementById('chapterNav');
-  nav.classList.toggle('open');
-}
-
-function goToChapter(index) {
-  if (swiperInstance) {
-    swiperInstance.slideTo(index);
-    // Close navigation on mobile after selection
-    if (window.innerWidth < 768) {
-      toggleChapterNav();
-    }
-  }
-}
-
-function updateActiveChapter(index) {
-  // Remove active class from all chapter items
-  document.querySelectorAll('.chapter-item').forEach(item => {
-    item.classList.remove('active');
-  });
-  
-  // Add active class to current chapter
-  const activeItem = document.querySelector(`.chapter-item[data-index="${index}"]`);
-  if (activeItem) {
-    activeItem.classList.add('active');
-    
-    // Scroll chapter into view in the navigation
-    activeItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-  }
-}
-
-// ===============================
-// 📹 BUILD CHAPTER NAVIGATION
-// ===============================
-function buildChapterNavigation(chapters) {
-  const chapterList = document.getElementById('chapterList');
-  chapterList.innerHTML = '';
+function buildChaptersList(chapters) {
+  const chaptersList = document.getElementById('chaptersList');
+  chaptersList.innerHTML = '';
   
   chapters.forEach((chapter, index) => {
     const item = document.createElement('div');
     item.className = `chapter-item ${chapter.is_free ? '' : 'locked'}`;
     item.setAttribute('data-index', index);
+    item.setAttribute('data-chapter-number', chapter.chapter_number);
     
     // Extract clean chapter title (remove "Chapter X:" prefix if exists)
     let displayTitle = chapter.title;
@@ -107,29 +74,168 @@ function buildChapterNavigation(chapters) {
       displayTitle = titleMatch[1];
     }
     
+    // Get first 100 characters of content for preview
+    let previewText = '';
+    if (chapter.content) {
+      // Remove tags for preview
+      previewText = chapter.content.replace(/~\w+~/g, '').substring(0, 100) + '...';
+    }
+    
     item.innerHTML = `
       <div class="chapter-number">${chapter.chapter_number.toString().padStart(2, '0')}</div>
-      <div class="chapter-title">${displayTitle}</div>
+      <div class="chapter-details">
+        <div class="chapter-title">${displayTitle}</div>
+        <div class="chapter-preview">${previewText}</div>
+      </div>
       ${!chapter.is_free ? '<i class="fas fa-lock chapter-lock"></i>' : ''}
     `;
     
     item.addEventListener('click', () => {
       if (chapter.is_free) {
-        goToChapter(index);
+        loadChapter(index);
+        // On mobile, close sidebar after selection
+        if (window.innerWidth < 992) {
+          closeSidebar();
+        }
       } else {
         showPopup();
       }
     });
     
-    chapterList.appendChild(item);
+    chaptersList.appendChild(item);
   });
+  
+  // Set first chapter as active
+  if (chapters.length > 0 && chapters[0].is_free) {
+    document.querySelector('.chapter-item[data-index="0"]').classList.add('active');
+  }
+}
+
+// ===============================
+// 📹 LOAD CHAPTER CONTENT
+// ===============================
+function loadChapter(index) {
+  if (index < 0 || index >= chaptersData.length) return;
+  
+  const chapter = chaptersData[index];
+  currentChapterIndex = index;
+  
+  // Update header
+  document.getElementById('currentChapterTitle').textContent = chapter.title;
+  document.getElementById('chapterProgress').textContent = 
+    `Chapter ${chapter.chapter_number} of ${chaptersData.length}`;
+  
+  // Update active state in chapters list
+  document.querySelectorAll('.chapter-item').forEach(item => {
+    item.classList.remove('active');
+  });
+  document.querySelector(`.chapter-item[data-index="${index}"]`).classList.add('active');
+  
+  // Scroll to active chapter in list
+  const activeItem = document.querySelector('.chapter-item.active');
+  if (activeItem) {
+    activeItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+  
+  // Load chapter content
+  const chapterViewer = document.getElementById('chapterViewer');
+  const backgroundUrl = getBackgroundImage(chapter.chapter_number);
+  
+  // Set background image
+  chapterViewer.style.background = 
+    `linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('${backgroundUrl}')`;
+  chapterViewer.style.backgroundSize = 'cover';
+  chapterViewer.style.backgroundPosition = 'center';
+  chapterViewer.style.backgroundAttachment = 'fixed';
+  
+  // 🔒 LOCKED CHAPTER
+  if (!chapter.is_free) {
+    chapterViewer.innerHTML = `
+      <div class="chapter-content">
+        <div class="chapter-viewer-header">
+          <h1 class="chapter-viewer-title">${chapter.title}</h1>
+          <p class="chapter-viewer-subtitle">Chapter ${chapter.chapter_number}</p>
+        </div>
+        <div style="text-align:center; padding: 60px 0;">
+          <div style="font-size: 4em; margin-bottom: 20px;">🔒</div>
+          <h2 style="color:#e74c3c; font-size: 2em; margin-bottom: 20px;">This Chapter is Locked</h2>
+          <p style="color: rgba(255,255,255,0.8); font-size: 1.2em; margin-bottom: 30px; max-width: 500px; margin: 0 auto 30px;">
+            Register or log in to continue reading this guide and unlock all premium content.
+          </p>
+          <button onclick="showPopup()" style="
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 18px 50px;
+            font-size: 1.2em;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+          ">
+            <i class="fas fa-unlock-alt"></i> Unlock Premium Content
+          </button>
+        </div>
+      </div>
+    `;
+    return;
+  }
+  
+  // 📖 FREE CHAPTER
+  chapterViewer.innerHTML = `
+    <div class="chapter-content">
+      <div class="chapter-viewer-header">
+        <h1 class="chapter-viewer-title">${chapter.title}</h1>
+        <p class="chapter-viewer-subtitle">Chapter ${chapter.chapter_number}</p>
+      </div>
+      ${parseTags(chapter.content)}
+      
+      <!-- Navigation buttons -->
+      <div style="margin-top: 50px; padding-top: 30px; border-top: 1px solid rgba(255,255,255,0.2); display: flex; justify-content: space-between;">
+        ${index > 0 ? `
+          <button onclick="loadChapter(${index - 1})" style="
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.3);
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+          ">
+            <i class="fas fa-arrow-left"></i> Previous Chapter
+          </button>
+        ` : '<div></div>'}
+        
+        ${index < chaptersData.length - 1 ? `
+          <button onclick="loadChapter(${index + 1})" style="
+            background: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+          ">
+            Next Chapter <i class="fas fa-arrow-right"></i>
+          </button>
+        ` : ''}
+      </div>
+    </div>
+  `;
 }
 
 // ===============================
 // 📹 LOAD CHAPTERS FROM SUPABASE
 // ===============================
-let totalChapters = 0;
-
 async function loadChapters() {
   const { data, error } = await supabaseClient
     .from('chapters')
@@ -138,134 +244,52 @@ async function loadChapters() {
 
   if (error) {
     console.error("❌ Supabase error:", error);
-    document.getElementById('bookSlides').innerHTML =
-      `<div class="swiper-slide">
-        <div class="slider-inner">
-          <div class="loading-content">
-            <h2>Error loading chapters.</h2>
-            <p style="color: rgba(255,255,255,0.7);">Please refresh the page.</p>
-          </div>
-        </div>
-      </div>`;
+    document.getElementById('chaptersList').innerHTML = `
+      <div style="padding: 40px 20px; text-align: center; color: rgba(255,255,255,0.7);">
+        <h3 style="color: #e74c3c;">Error loading chapters</h3>
+        <p>Please refresh the page or try again later.</p>
+      </div>
+    `;
     return;
   }
 
-  totalChapters = data.length;
   chaptersData = data;
-  const bookSlides = document.getElementById('bookSlides');
-  bookSlides.innerHTML = "";
-
-  data.forEach((chapter) => {
-    const slide = document.createElement('div');
-    slide.classList.add('swiper-slide');
-    slide.id = `chapter${chapter.chapter_number}`;
-
-    const backgroundUrl = getBackgroundImage(chapter.chapter_number);
-
-    // 🔒 LOCKED CHAPTER
-    if (!chapter.is_free) {
-      slide.innerHTML = `
-        <div class="slider-inner" data-swiper-parallax="100">
-          <img src="${backgroundUrl}" alt="Chapter ${chapter.chapter_number}" class="background-image">
-          <div class="swiper-content" data-swiper-parallax="2000">
-            <div class="chapterHero">${chapter.title}</div>
-            <div style="text-align:center; padding: 40px 0;">
-              <p style="color:#e74c3c; font-size:1.5em; margin-bottom: 20px;">🔒 This chapter is locked.</p>
-              <p style="color: rgba(255,255,255,0.8); margin-bottom: 30px;">Register or login to continue reading this guide.</p>
-              <button onclick="showPopup()" style="
-                background: #3498db;
-                color: white;
-                border: none;
-                padding: 15px 40px;
-                font-size: 1.1em;
-                border-radius: 8px;
-                cursor: pointer;
-                font-weight: 600;
-                transition: all 0.3s;
-              ">Unlock Content</button>
-            </div>
-          </div>
-        </div>
-      `;
-    } 
-    // 📖 FREE CHAPTER
-    else {
-      slide.innerHTML = `
-        <div class="slider-inner" data-swiper-parallax="100">
-          <img src="${backgroundUrl}" alt="Chapter ${chapter.chapter_number}" class="background-image">
-          <div class="swiper-content" data-swiper-parallax="2000">
-            <div class="chapterHero">${chapter.title}</div>
-            ${parseTags(chapter.content)}
-          </div>
-        </div>
-      `;
-    }
-
-    bookSlides.appendChild(slide);
-  });
-
-  // Build chapter navigation
-  buildChapterNavigation(data);
-
-  // Update total chapter number in pagination
-  document.querySelector('.slide-range.total').textContent = 
-    totalChapters.toString().padStart(2, '0');
-
-  initSwiper(); // initialize slider after content loads
+  
+  // Build chapters list
+  buildChaptersList(data);
+  
+  // Load first free chapter
+  const firstFreeIndex = data.findIndex(chapter => chapter.is_free);
+  if (firstFreeIndex !== -1) {
+    loadChapter(firstFreeIndex);
+  } else {
+    // If no free chapters, show first chapter (locked)
+    loadChapter(0);
+  }
 }
 
 // ===============================
-// 📹 SWIPER INITIALIZATION
+// 📹 SIDEBAR CONTROLS
 // ===============================
-function initSwiper() {
-  swiperInstance = new Swiper('.swiper-container-h', {
-    direction: 'horizontal',
-    effect: 'slide',
-    parallax: true,
-    speed: 1600,
-    loop: false,
-    keyboard: {
-      enabled: true,
-      onlyInViewport: true
-    },
-    // IMPORTANT: Disable mousewheel horizontal scrolling
-    // This allows vertical scrolling inside content
-    mousewheel: false,
-    
-    // Enable touch gestures for left/right swipe only
-    touchRatio: 1,
-    touchAngle: 45, // Only swipe when angle is close to horizontal
-    
-    navigation: {
-      nextEl: '.swiper-button-next',
-      prevEl: '.swiper-button-prev'
-    },
-    pagination: {
-      el: '.swiper-pagination',
-      type: 'progressbar'
-    },
-    on: {
-      slideChange: function () {
-        // Update current slide number
-        const currentSlide = (this.activeIndex + 1).toString().padStart(2, '0');
-        document.querySelector('.slide-range.one').textContent = currentSlide;
-        
-        // Update active chapter in navigation
-        updateActiveChapter(this.activeIndex);
-        
-        // Scroll content back to top when changing chapters
-        const currentSlideElement = this.slides[this.activeIndex];
-        const contentElement = currentSlideElement.querySelector('.swiper-content');
-        if (contentElement) {
-          contentElement.scrollTop = 0;
-        }
-      },
-      init: function() {
-        // Set initial active chapter
-        updateActiveChapter(0);
-      }
-    }
-  });
+function toggleSidebar() {
+  document.getElementById('chaptersSidebar').classList.toggle('open');
+}
+
+function closeSidebar() {
+  document.getElementById('chaptersSidebar').classList.remove('open');
+}
+
+// ===============================
+// 📹 READ MODE TOGGLE
+// ===============================
+function toggleReadMode() {
+  document.body.classList.toggle('read-mode');
+  const button = document.getElementById('readModeToggle');
+  if (document.body.classList.contains('read-mode')) {
+    button.innerHTML = '<i class="fas fa-times"></i> Exit Read Mode';
+  } else {
+    button.innerHTML = '<i class="fas fa-book-reader"></i> Read Mode';
+  }
 }
 
 // ===============================
@@ -280,18 +304,60 @@ function closePopup() {
 }
 
 // ===============================
-// 📹 CLOSE NAV ON ESCAPE KEY
+// 📹 KEYBOARD SHORTCUTS
 // ===============================
 document.addEventListener('keydown', function(e) {
+  // Escape key: close sidebar and popup
   if (e.key === 'Escape') {
-    const nav = document.getElementById('chapterNav');
-    if (nav.classList.contains('open')) {
-      toggleChapterNav();
+    closeSidebar();
+    closePopup();
+    
+    // Exit read mode
+    if (document.body.classList.contains('read-mode')) {
+      toggleReadMode();
+    }
+  }
+  
+  // Arrow keys for navigation
+  if (!document.body.classList.contains('read-mode')) {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+      e.preventDefault();
+      if (currentChapterIndex < chaptersData.length - 1) {
+        loadChapter(currentChapterIndex + 1);
+      }
+    }
+    
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      if (currentChapterIndex > 0) {
+        loadChapter(currentChapterIndex - 1);
+      }
     }
   }
 });
 
 // ===============================
-// 🚀 START APP
+// 🚀 INITIALIZE APP
 // ===============================
-loadChapters();
+document.addEventListener('DOMContentLoaded', function() {
+  // Set up event listeners
+  document.getElementById('navToggle').addEventListener('click', toggleSidebar);
+  document.getElementById('closeSidebar').addEventListener('click', closeSidebar);
+  document.getElementById('readModeToggle').addEventListener('click', toggleReadMode);
+  
+  // Close sidebar when clicking outside on mobile
+  document.addEventListener('click', function(e) {
+    const sidebar = document.getElementById('chaptersSidebar');
+    const navToggle = document.getElementById('navToggle');
+    
+    if (window.innerWidth < 992 && 
+        sidebar.classList.contains('open') &&
+        !sidebar.contains(e.target) &&
+        !navToggle.contains(e.target)) {
+      closeSidebar();
+    }
+  });
+  
+  // Load chapters from Supabase
+  loadChapters();
+});
