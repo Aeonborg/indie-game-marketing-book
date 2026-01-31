@@ -1,7 +1,7 @@
 // ===============================
 // 🔹 SUPABASE CONNECTION
 // ===============================
-const SUPABASE_URL = "https://https://yapeslxvrhvxbramrjhh.supabase.co";
+const SUPABASE_URL = "https://yapeslxvrhvxbramrjhh.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_k0IQraaeYBMuQ3vs0-D66Q_PXNKT228";
 
 // Use Supabase v2 client from CDN global
