@@ -3,10 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Indie Game Marketing — The Ultimate Guide</title>
+  <title>Indie Game Marketing – The Ultimate Guide</title>
 
   <!-- Swiper CSS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  
+  <!-- Font Awesome for Navigation Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
 
   <!-- Your Styles -->
   <link rel="stylesheet" href="style.css" />
@@ -17,20 +20,52 @@
 <body>
 
   <!-- 🔥 Fullscreen Book Slider -->
-  <section class="swiper-container">
-    <div class="swiper-wrapper" id="bookSlides">
-      <!-- Chapters from Supabase will load here -->
-      <div class="swiper-slide" style="text-align:center;">
-        <h1>Loading Book...</h1>
+  <section class="creative-fullpage--slider">
+    <div class="banner-horizontal">
+      <div class="swiper swiper-container-h">
+        <div class="swiper-wrapper" id="bookSlides">
+          <!-- Chapters from Supabase will load here -->
+          <div class="swiper-slide" style="text-align:center;">
+            <div class="slider-inner">
+              <div class="loading-content">
+                <h1>Loading Book...</h1>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div class="swiper-button-wrapper">
+          <div class="swiper-button-next"></div>
+          <div class="swiper-button-prev"></div>
+        </div>
+
+        <!-- Progress bar -->
+        <div class="slider-pagination-area">
+          <h5 class="slide-range one">01</h5>
+          <div class="swiper-pagination swiper-pagination-progressbar"></div>
+          <h5 class="slide-range total">--</h5>
+        </div>
       </div>
     </div>
 
-    <!-- Navigation -->
-    <div class="swiper-button-next"></div>
-    <div class="swiper-button-prev"></div>
-
-    <!-- Progress bar -->
-    <div class="swiper-pagination swiper-pagination-progressbar"></div>
+    <!-- 📚 Floating Chapter Navigation Column -->
+    <div class="chapter-navigation" id="chapterNav">
+      <div class="chapter-nav-toggle" onclick="toggleChapterNav()">
+        <i class="fas fa-bars"></i>
+      </div>
+      <div class="chapter-nav-content">
+        <div class="chapter-nav-header">
+          <h3>Chapters</h3>
+          <button class="close-nav" onclick="toggleChapterNav()">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="chapter-list" id="chapterList">
+          <!-- Chapters will be dynamically loaded here -->
+        </div>
+      </div>
+    </div>
   </section>
 
   <!-- 🔒 Register Popup -->
@@ -42,8 +77,11 @@
     </div>
   </div>
 
+  <!-- 🔹 jQuery (required for Swiper initialization in script) -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
   <!-- 🔹 Swiper JS -->
-  <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
 
   <!-- 🔹 Supabase v2 -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
