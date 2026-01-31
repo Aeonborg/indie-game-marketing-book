@@ -82,22 +82,23 @@ h1, h2, h3 {
 
 /* ===============================
    SWIPER CONTENT - Text Overlay
-   🔥 UPDATED: Content constrained for optimal readability
+   🔥 UPDATED: Content positioned higher and centered for optimal visibility
 =============================== */
 .swiper-content {
   position: absolute;
-  top: 50%;
+  top: 40%;  /* Move content higher - was 50% */
   transform: translateY(-50%);
-  left: 80px;
-  width: 700px;  /* Compact width for better readability */
+  left: 120px;  /* More left margin */
+  width: 850px;  /* Wider for better layout */
   z-index: 2;
-  max-height: 75vh;
+  max-height: 60vh;  /* Shorter height to stay in frame */
   overflow-y: auto;
   overflow-x: hidden;
-  padding: 30px;
-  background: rgba(0, 0, 0, 0.7);  /* Add semi-transparent background for readability */
-  backdrop-filter: blur(10px);
-  border-radius: 12px;
+  padding: 40px;
+  background: rgba(0, 0, 0, 0.75);  /* Slightly darker for better contrast */
+  backdrop-filter: blur(15px);
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);  /* Add depth */
 }
 
 /* Scrollbar for content */
@@ -529,9 +530,11 @@ h1, h2, h3 {
 =============================== */
 @media (max-width: 991px) {
   .swiper-content {
-    left: 40px;
-    width: 600px;
-    padding: 25px;
+    top: 40%;
+    left: 60px;
+    width: 650px;
+    padding: 30px;
+    max-height: 55vh;
   }
 
   .chapterHero {
