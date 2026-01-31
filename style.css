@@ -1,0 +1,63 @@
+/* General page style */
+body {
+  font-family: 'Segoe UI', sans-serif;
+  margin:0;
+  padding:0;
+  background:#f7f7f7;
+  color:#222;
+}
+
+/* Swiper */
+.swiper-container {
+  width: 100%;
+  height: 100vh;
+}
+
+.swiper-slide {
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  flex-direction:column;
+  padding:40px;
+  box-sizing:border-box;
+  background:#fff;
+}
+
+/* Tag styles */
+.chapterHero { font-size:2em; font-weight:bold; margin-bottom:20px; color:#2c3e50; text-align:center; }
+.story { font-size:1.1em; margin:15px 0; }
+.pullQuote { font-style:italic; background:#f0f8ff; padding:15px; margin:20px 0; border-left:5px solid #3498db; max-width:700px; text-align:center; }
+.lesson { background:#fef9e7; padding:15px; margin:20px 0; border-left:5px solid #f1c40f; }
+.tools { background:#e8f8f5; padding:15px; margin:20px 0; border-left:5px solid #1abc9c; }
+.actionStep { background:#fdebd0; padding:15px; margin:20px 0; border-left:5px solid #e67e22; }
+.milestone { background:#f5eef8; padding:15px; margin:20px 0; border-left:5px solid #9b59b6; }
+.miniStory { margin:15px 0; font-style:italic; }
+.cliffhanger { font-weight:bold; background:#f9ebea; padding:15px; margin:25px 0; border-left:5px solid #e74c3c; }
+
+/* Register popup */
+#registerPopup {
+  display:none;
+  position:fixed;
+  top:0; left:0;
+  width:100%; height:100%;
+  background:rgba(0,0,0,0.7);
+  justify-content:center;
+  align-items:center;
+}
+#registerPopupContent {
+  background:#fff;
+  padding:30px;
+  max-width:400px;
+  text-align:center;
+  border-radius:10px;
+}
+#registerPopup button { margin-top:20px; padding:10px 20px; cursor:pointer; }
+
+/* Smooth scrolling (if needed) */
+html { scroll-behavior:smooth; }
+
+/* Responsive tweaks */
+@media(max-width:600px){
+  .swiper-slide { padding:20px; }
+  .chapterHero { font-size:1.5em; }
+}
