@@ -18,9 +18,11 @@ function parseTags(text) {
   const regex = /~(\w+)~([\s\S]*?)~~\1~/g;
   let html = '';
   let match;
+
   while ((match = regex.exec(text)) !== null) {
     html += `<div class="${match[1]}">${match[2].trim()}</div>\n`;
   }
+
   return html;
 }
 
@@ -44,6 +46,7 @@ function getBackgroundImage(chapterNumber) {
     'https://images.unsplash.com/photo-1488229297570-58520851e868?w=1920&q=80',
     'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=1920&q=80'
   ];
+
   return backgrounds[chapterNumber - 1] || backgrounds[0];
 }
 
@@ -65,8 +68,10 @@ function goToChapter(index) {
 function updateActiveChapter(index) {
   document.querySelectorAll('.chapter-item').forEach(item => item.classList.remove('active'));
   const activeItem = document.querySelector(`.chapter-item[data-index="${index}"]`);
-  if (activeItem) activeItem.classList.add('active');
-  if (activeItem) activeItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  if (activeItem) {
+    activeItem.classList.add('active');
+    activeItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
 }
 
 // ===============================
@@ -75,21 +80,23 @@ function updateActiveChapter(index) {
 function buildChapterNavigation(chapters) {
   const chapterList = document.getElementById('chapterList');
   chapterList.innerHTML = '';
+
   chapters.forEach((chapter, index) => {
     const item = document.createElement('div');
     item.className = `chapter-item ${chapter.is_free ? '' : 'locked'}`;
     item.setAttribute('data-index', index);
 
     let displayTitle = chapter.title.replace(/^Chapter \d+:\s*/i, '');
+
     item.innerHTML = `
-      <div class="chapter-number">${chapter.chapter_number.toString().padStart(2,'0')}</div>
+      <div class="chapter-number">${chapter.chapter_number.toString().padStart(2, '0')}</div>
       <div class="chapter-title">${displayTitle}</div>
       ${!chapter.is_free ? '<i class="fas fa-lock chapter-lock"></i>' : ''}
     `;
 
     item.addEventListener('click', () => {
       if (chapter.is_free) goToChapter(index);
-      else handleLockedChapter();
+      else showPopup();
     });
 
     chapterList.appendChild(item);
@@ -100,6 +107,7 @@ function buildChapterNavigation(chapters) {
 // 📹 LOAD CHAPTERS FROM SUPABASE
 // ===============================
 let totalChapters = 0;
+
 async function loadChapters() {
   const { data, error } = await supabaseClient
     .from('chapters')
@@ -124,24 +132,25 @@ async function loadChapters() {
   chaptersData = data;
 
   const bookSlides = document.getElementById('bookSlides');
-  bookSlides.innerHTML = '';
+  bookSlides.innerHTML = "";
 
-  data.forEach((chapter) => {
+  data.forEach(chapter => {
     const slide = document.createElement('div');
     slide.classList.add('swiper-slide');
     slide.id = `chapter${chapter.chapter_number}`;
+
     const bg = getBackgroundImage(chapter.chapter_number);
 
     if (!chapter.is_free) {
       slide.innerHTML = `
         <div class="slider-inner" data-swiper-parallax="100">
-          <img src="${bg}" alt="Chapter ${chapter.chapter_number}" class="background-image">
+          <img src="${bg}" class="background-image">
           <div class="swiper-content" data-swiper-parallax="2000">
             <div class="chapterHero">${chapter.title}</div>
-            <div style="text-align:center; padding: 40px 0;">
-              <p style="color:#e74c3c; font-size:1.5em; margin-bottom: 20px;">🔒 This chapter is locked.</p>
-              <p style="color: rgba(255,255,255,0.8); margin-bottom: 30px;">Login or register to continue reading.</p>
-              <button onclick="handleLockedChapter()" style="
+            <div style="text-align:center; padding:40px 0;">
+              <p style="color:#e74c3c; font-size:1.5em; margin-bottom:20px;">🔒 This chapter is locked.</p>
+              <p style="color: rgba(255,255,255,0.8); margin-bottom:30px;">Login or register to continue reading this guide.</p>
+              <button onclick="showPopup()" style="
                 background: #3498db;
                 color: white;
                 border: none;
@@ -158,7 +167,7 @@ async function loadChapters() {
     } else {
       slide.innerHTML = `
         <div class="slider-inner" data-swiper-parallax="100">
-          <img src="${bg}" alt="Chapter ${chapter.chapter_number}" class="background-image">
+          <img src="${bg}" class="background-image">
           <div class="swiper-content" data-swiper-parallax="2000">
             <div class="chapterHero">${chapter.title}</div>
             ${parseTags(chapter.content)}
@@ -170,7 +179,8 @@ async function loadChapters() {
   });
 
   buildChapterNavigation(data);
-  document.querySelector('.slide-range.total').textContent = totalChapters.toString().padStart(2,'0');
+  document.querySelector('.slide-range.total').textContent = totalChapters.toString().padStart(2, '0');
+
   initSwiper();
 }
 
@@ -185,79 +195,97 @@ function initSwiper() {
     speed: 1600,
     loop: false,
     keyboard: { enabled: true },
-    mousewheel: false,
-    touchRatio: 1,
-    touchAngle: 45,
-    navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
+    navigation: {
+      nextEl: '.swiper-button-next',
+      prevEl: '.swiper-button-prev'
+    },
     pagination: { el: '.swiper-pagination', type: 'progressbar' },
     on: {
       slideChange: function () {
-        document.querySelector('.slide-range.one').textContent = (this.activeIndex + 1).toString().padStart(2,'0');
+        const currentSlide = (this.activeIndex + 1).toString().padStart(2, '0');
+        document.querySelector('.slide-range.one').textContent = currentSlide;
         updateActiveChapter(this.activeIndex);
         const content = this.slides[this.activeIndex].querySelector('.swiper-content');
         if (content) content.scrollTop = 0;
       },
-      init: function() { updateActiveChapter(0); }
+      init: function () { updateActiveChapter(0); }
     }
   });
 }
 
 // ===============================
-// 🔒 AUTH POPUP CONTROLS
+// 📹 LOGIN / REGISTER POPUP
 // ===============================
-function handleLockedChapter() {
-  showAuthPopup();
+function showPopup() {
+  document.getElementById('registerPopup').style.display = 'flex';
 }
 
-function showAuthPopup() { document.getElementById('authPopup').style.display = 'flex'; }
-function closeAuthPopup() { document.getElementById('authPopup').style.display = 'none'; }
-
-function switchAuthTab(tab) {
-  document.getElementById('loginForm').style.display = tab==='login'?'flex':'none';
-  document.getElementById('registerForm').style.display = tab==='register'?'flex':'none';
-  document.getElementById('loginTab').classList.toggle('active', tab==='login');
-  document.getElementById('registerTab').classList.toggle('active', tab==='register');
+function closePopup() {
+  document.getElementById('registerPopup').style.display = 'none';
 }
 
-// ===============================
-// 📹 SUPABASE LOGIN
-// ===============================
-document.getElementById('loginForm').addEventListener('submit', async (e) => {
-  e.preventDefault();
-  const form = new FormData(e.target);
-  const { data, error } = await supabaseClient.auth.signInWithPassword({
-    email: form.get('email'),
-    password: form.get('password')
-  });
-  if (error) return alert("❌ Login failed: "+error.message);
-  alert("✅ Login successful!");
-  closeAuthPopup();
+// Toggle login/register forms
+const loginForm = document.getElementById('loginForm');
+const registerForm = document.getElementById('registerForm');
+
+document.getElementById('loginTabBtn').addEventListener('click', () => {
+  loginForm.style.display = 'block';
+  registerForm.style.display = 'none';
+});
+
+document.getElementById('registerTabBtn').addEventListener('click', () => {
+  loginForm.style.display = 'none';
+  registerForm.style.display = 'block';
 });
 
 // ===============================
-// 📹 SUPABASE REGISTER
+// 📹 SUPABASE AUTH - LOGIN
 // ===============================
-document.getElementById('registerForm').addEventListener('submit', async (e) => {
+loginForm.addEventListener('submit', async (e) => {
   e.preventDefault();
-  const form = new FormData(e.target);
+  const email = document.getElementById('loginEmail').value;
+  const password = document.getElementById('loginPassword').value;
+
+  const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+
+  if (error) alert(error.message);
+  else {
+    alert(`Welcome back!`);
+    closePopup();
+  }
+});
+
+// ===============================
+// 📹 SUPABASE AUTH - REGISTER
+// ===============================
+registerForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const email = document.getElementById('registerEmail').value;
+  const password = document.getElementById('registerPassword').value;
+  const username = document.getElementById('registerUsername').value;
+  const name = document.getElementById('registerName').value;
+
   const { data, error } = await supabaseClient.auth.signUp({
-    email: form.get('email'),
-    password: form.get('password'),
-    options: { data: { full_name: form.get('name'), username: form.get('username') } }
+    email,
+    password,
+    options: { data: { username, name } }
   });
-  if (error) return alert("❌ Registration failed: "+error.message);
-  alert("✅ Registration successful! Please verify your email.");
-  closeAuthPopup();
+
+  if (error) alert(error.message);
+  else {
+    alert(`Registration successful! Please check your email to confirm.`);
+    closePopup();
+  }
 });
 
 // ===============================
-// 📹 ESC KEY TO CLOSE NAV
+// 📹 ESC TO CLOSE NAV
 // ===============================
-document.addEventListener('keydown', (e) => {
+document.addEventListener('keydown', e => {
   if (e.key === 'Escape') {
     const nav = document.getElementById('chapterNav');
     if (nav.classList.contains('open')) toggleChapterNav();
-    closeAuthPopup();
+    closePopup();
   }
 });
 
