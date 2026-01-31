@@ -1,106 +1,115 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Interactive Story Slider</title>
-
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
-
-  <!-- Font Awesome for icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Indie Game Marketing – The Ultimate Guide</title>
 
   <!-- Swiper CSS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  
+  <!-- Font Awesome for Navigation Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
 
-  <!-- Custom CSS -->
-  <link rel="stylesheet" href="style.css">
+  <!-- Your Styles -->
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Prevent favicon 404 error -->
+  <link rel="icon" href="data:," />
 </head>
 <body>
 
-  <!-- ===============================
-       FULLSCREEN SLIDER
-  ================================ -->
-  <div class="creative-fullpage--slider swiper-container-h">
-    <div class="swiper-wrapper">
-
-      <!-- Slide 1 -->
-      <div class="swiper-slide">
-        <div class="slider-inner">
-          <img class="background-image" src="https://picsum.photos/1920/1080?1" alt="Slide 1 Background">
-          <div class="swiper-content">
-            <h1 class="chapterHero">Chapter 1: The Beginning</h1>
-            <p class="story">Welcome to the story. Click the button to unlock full content.</p>
-            <button class="unlockContentBtn">Unlock Content</button>
+  <!-- 🔥 Fullscreen Book Slider -->
+  <section class="creative-fullpage--slider">
+    <div class="banner-horizontal">
+      <div class="swiper swiper-container-h">
+        <div class="swiper-wrapper" id="bookSlides">
+          <!-- Chapters from Supabase will load here -->
+          <div class="swiper-slide" style="text-align:center;">
+            <div class="slider-inner">
+              <div class="loading-content">
+                <h1>Loading Book...</h1>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- Slide 2 -->
-      <div class="swiper-slide">
-        <div class="slider-inner">
-          <img class="background-image" src="https://picsum.photos/1920/1080?2" alt="Slide 2 Background">
-          <div class="swiper-content">
-            <h1 class="chapterHero">Chapter 2: The Journey</h1>
-            <p class="story">This chapter is locked. Register or login to continue.</p>
-            <button class="unlockContentBtn">Unlock Content</button>
-          </div>
+        <!-- Navigation Buttons -->
+        <div class="swiper-button-wrapper">
+          <div class="swiper-button-next"></div>
+          <div class="swiper-button-prev"></div>
+        </div>
+
+        <!-- Progress bar -->
+        <div class="slider-pagination-area">
+          <h5 class="slide-range one">01</h5>
+          <div class="swiper-pagination swiper-pagination-progressbar"></div>
+          <h5 class="slide-range total">--</h5>
         </div>
       </div>
-
-      <!-- Add more slides as needed -->
-
     </div>
 
-    <!-- Navigation -->
-    <div class="swiper-button-next"></div>
-    <div class="swiper-button-prev"></div>
-
-    <!-- Pagination / Progress -->
-    <div class="slider-pagination-area">
-      <span class="slide-range one">1</span>
-      <div class="swiper-pagination"></div>
-      <span class="slide-range total">2</span>
+    <!-- 📚 Floating Chapter Navigation Column -->
+    <div class="chapter-navigation" id="chapterNav">
+      <div class="chapter-nav-toggle" onclick="toggleChapterNav()">
+        <i class="fas fa-bars"></i>
+      </div>
+      <div class="chapter-nav-content">
+        <div class="chapter-nav-header">
+          <h3>Chapters</h3>
+          <button class="close-nav" onclick="toggleChapterNav()">
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+        <div class="chapter-list" id="chapterList">
+          <!-- Chapters will be dynamically loaded here -->
+        </div>
+      </div>
     </div>
-  </div>
+  </section>
 
-  <!-- ===============================
-       LOGIN / REGISTER POPUP
-  ================================ -->
-  <div id="authPopup">
-    <div id="authPopupContent">
-      <div class="auth-tabs">
-        <div class="auth-tab active" data-tab="login">Login</div>
-        <div class="auth-tab" data-tab="register">Register</div>
+  <!-- 🔒 Login/Register Popup -->
+  <div id="registerPopup">
+    <div id="registerPopupContent">
+      <h2>Please login or register to continue</h2>
+
+      <!-- Tabs -->
+      <div style="display:flex; gap:10px; margin-bottom:15px; justify-content:center;">
+        <button id="loginTabBtn" type="button">Login</button>
+        <button id="registerTabBtn" type="button">Register</button>
       </div>
 
       <!-- Login Form -->
       <form id="loginForm">
-        <input type="email" id="loginEmail" placeholder="Email" required>
-        <input type="password" id="loginPassword" placeholder="Password" required>
+        <input type="email" id="loginEmail" placeholder="Email" required><br>
+        <input type="password" id="loginPassword" placeholder="Password" required><br>
         <button type="submit">Login</button>
+        <button type="button" onclick="closePopup()">Cancel</button>
       </form>
 
       <!-- Register Form -->
-      <form id="registerForm" style="display: none;">
-        <input type="text" id="registerName" placeholder="Full Name" required>
-        <input type="text" id="registerUsername" placeholder="Username" required>
-        <input type="email" id="registerEmail" placeholder="Email" required>
-        <input type="password" id="registerPassword" placeholder="Password" required>
+      <form id="registerForm" style="display:none;">
+        <input type="text" id="registerName" placeholder="Full Name" required><br>
+        <input type="text" id="registerUsername" placeholder="Username" required><br>
+        <input type="email" id="registerEmail" placeholder="Email" required><br>
+        <input type="password" id="registerPassword" placeholder="Password" required><br>
         <button type="submit">Register</button>
+        <button type="button" onclick="closePopup()">Cancel</button>
       </form>
 
     </div>
   </div>
 
-  <!-- Swiper JS -->
-  <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.js"></script>
+  <!-- 🔹 jQuery (required for Swiper initialization in script) -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-  <!-- Supabase JS -->
+  <!-- 🔹 Swiper JS -->
+  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+
+  <!-- 🔹 Supabase v2 -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-  <!-- Custom JS -->
+  <!-- 🔹 Your App Logic -->
   <script src="script.js"></script>
 
 </body>
