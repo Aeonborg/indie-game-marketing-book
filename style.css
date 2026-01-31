@@ -202,6 +202,49 @@ h1, h2, h3 {
   to { transform: rotate(360deg); }
 }
 
+/* Error and empty states */
+.error-message {
+  padding: 40px 20px;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.error-message h3 {
+  color: #e74c3c;
+  font-size: 1.4em;
+  margin-bottom: 15px;
+}
+
+.error-message h3 i {
+  margin-right: 10px;
+}
+
+.error-message p {
+  margin: 10px 0;
+  line-height: 1.6;
+}
+
+.empty-message {
+  padding: 40px 20px;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.empty-message h3 {
+  color: #f39c12;
+  font-size: 1.4em;
+  margin-bottom: 15px;
+}
+
+.empty-message h3 i {
+  margin-right: 10px;
+}
+
+.empty-message p {
+  margin: 10px 0;
+  line-height: 1.6;
+}
+
 /* ===============================
    CHAPTER ITEMS
 =============================== */
