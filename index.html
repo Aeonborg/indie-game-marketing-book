@@ -26,7 +26,7 @@
     <header class="book-header">
       <div class="header-content">
         <div class="chapter-info">
-          <h1 class="current-chapter-title" id="currentChapterTitle">Loading...</h1>
+          <h1 class="current-chapter-title" id="currentChapterTitle">Loading Indie Game Marketing Guide...</h1>
           <div class="chapter-progress" id="chapterProgress">Chapter 1 of 14</div>
         </div>
         <div class="header-actions">
@@ -55,7 +55,7 @@
           <!-- Chapters will be loaded here -->
           <div class="loading-chapters">
             <div class="loading-spinner"></div>
-            <p>Loading chapters...</p>
+            <p>Loading chapters from database...</p>
           </div>
         </div>
       </aside>
@@ -64,8 +64,11 @@
       <section class="chapter-viewer" id="chapterViewer">
         <!-- Current Chapter Content will be loaded here -->
         <div class="loading-content">
-          <h2>Loading Content...</h2>
-          <p>Please wait while we load the book content.</p>
+          <h2><i class="fas fa-book-open"></i> Loading Content</h2>
+          <p>Please wait while we load the book content from the database.</p>
+          <div style="margin-top: 20px;">
+            <div class="loading-spinner" style="border-top-color: white;"></div>
+          </div>
         </div>
       </section>
 
@@ -79,14 +82,17 @@
       <div class="popup-icon">
         <i class="fas fa-lock"></i>
       </div>
-      <h2>Premium Content Locked</h2>
-      <p>This chapter is part of our premium content. Register or log in to unlock:</p>
+      <h2><i class="fas fa-lock"></i> Premium Content Locked</h2>
+      <p>This chapter is part of our premium content. Register or log in to unlock all chapters and features.</p>
+      
       <ul class="premium-features">
-        <li><i class="fas fa-check"></i> Access to all chapters</li>
+        <li><i class="fas fa-check"></i> Access to all premium chapters</li>
+        <li><i class="fas fa-check"></i> Downloadable resources & templates</li>
         <li><i class="fas fa-check"></i> Exclusive case studies</li>
-        <li><i class="fas fa-check"></i> Downloadable resources</li>
-        <li><i class="fas fa-check"></i> Community access</li>
+        <li><i class="fas fa-check"></i> Community access & forums</li>
+        <li><i class="fas fa-check"></i> Regular content updates</li>
       </ul>
+      
       <div class="popup-buttons">
         <button class="popup-cancel-btn" onclick="closePopup()">
           <i class="fas fa-times"></i> Cancel
@@ -95,7 +101,11 @@
           <i class="fas fa-user-plus"></i> Register Now
         </button>
       </div>
-      <p class="popup-login">Already have an account? <a href="#" onclick="showLogin()">Log in here</a></p>
+      
+      <p class="popup-login">
+        Already have an account? 
+        <a href="#" onclick="showLogin()">Log in here</a>
+      </p>
     </div>
   </div>
 
