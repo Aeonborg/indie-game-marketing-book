@@ -82,15 +82,14 @@ h1, h2, h3 {
 
 /* ===============================
    SWIPER CONTENT - Text Overlay
-   🔥 UPDATED: Content positioned near top for optimal visibility
 =============================== */
 .swiper-content {
   position: absolute;
-  top: 100px;  /* Fixed distance from top instead of percentage */
+  top: 100px;
   left: 120px;
   width: 850px;
   z-index: 2;
-  max-height: calc(100vh - 200px);  /* Leave space for top and bottom */
+  max-height: calc(100vh - 200px);
   overflow-y: auto;
   overflow-x: hidden;
   padding: 40px;
@@ -300,201 +299,32 @@ h1, h2, h3 {
 /* ===============================
    BOOK TAG STYLES
 =============================== */
-
-.story {
-  font-size: 1.15em;
-  line-height: 1.8;
-  margin-bottom: 20px;
-  color: #FFFFFFB0;
-}
-
-.pullQuote {
-  font-size: 1.3em;
-  font-style: italic;
-  background: rgba(52, 152, 219, 0.2);
-  padding: 20px 25px;
-  margin: 30px 0;
-  border-left: 5px solid #3498db;
-  text-align: center;
-  color: #ffffff;
-  backdrop-filter: blur(10px);
-}
-
-.lesson {
-  background: rgba(241, 196, 15, 0.2);
-  padding: 20px 25px;
-  margin: 25px 0;
-  border-left: 5px solid #f1c40f;
-  font-weight: 500;
-  color: #ffffff;
-  backdrop-filter: blur(10px);
-}
-
-.tools {
-  background: rgba(26, 188, 156, 0.2);
-  padding: 20px 25px;
-  margin: 25px 0;
-  border-left: 5px solid #1abc9c;
-  color: #ffffff;
-  backdrop-filter: blur(10px);
-}
-
-.actionStep {
-  background: rgba(230, 126, 34, 0.2);
-  padding: 20px 25px;
-  margin: 25px 0;
-  border-left: 5px solid #e67e22;
-  font-weight: bold;
-  color: #ffffff;
-  backdrop-filter: blur(10px);
-}
-
-.milestone {
-  background: rgba(155, 89, 182, 0.2);
-  padding: 20px 25px;
-  margin: 25px 0;
-  border-left: 5px solid #9b59b6;
-  color: #ffffff;
-  backdrop-filter: blur(10px);
-}
-
-.miniStory {
-  font-style: italic;
-  margin: 20px 0;
-  color: #FFFFFFB0;
-}
-
-.cliffhanger {
-  background: rgba(231, 76, 60, 0.2);
-  padding: 20px 25px;
-  margin: 30px 0 10px;
-  border-left: 5px solid #e74c3c;
-  font-weight: bold;
-  font-size: 1.1em;
-  color: #ffffff;
-  backdrop-filter: blur(10px);
-}
-
-.reference {
-  background: rgba(149, 165, 166, 0.2);
-  padding: 15px 20px;
-  margin: 25px 0 10px;
-  border-left: 4px solid #95a5a6;
-  font-size: 0.85em;
-  line-height: 1.6;
-  color: rgba(255, 255, 255, 0.7);
-  font-style: italic;
-  backdrop-filter: blur(10px);
-}
-
-.reference::before {
-  content: "📚 ";
-  margin-right: 5px;
-}
+.story { font-size: 1.15em; line-height: 1.8; margin-bottom: 20px; color: #FFFFFFB0; }
+.pullQuote { font-size: 1.3em; font-style: italic; background: rgba(52,152,219,0.2); padding:20px 25px; margin:30px 0; border-left:5px solid #3498db; text-align:center; color:#fff; backdrop-filter:blur(10px);}
+.lesson { background: rgba(241,196,15,0.2); padding:20px 25px; margin:25px 0; border-left:5px solid #f1c40f; font-weight:500; color:#fff; backdrop-filter:blur(10px);}
+.tools { background: rgba(26,188,156,0.2); padding:20px 25px; margin:25px 0; border-left:5px solid #1abc9c; color:#fff; backdrop-filter:blur(10px);}
+.actionStep { background: rgba(230,126,34,0.2); padding:20px 25px; margin:25px 0; border-left:5px solid #e67e22; font-weight:bold; color:#fff; backdrop-filter:blur(10px);}
+.milestone { background: rgba(155,89,182,0.2); padding:20px 25px; margin:25px 0; border-left:5px solid #9b59b6; color:#fff; backdrop-filter:blur(10px);}
+.miniStory { font-style: italic; margin: 20px 0; color: #FFFFFFB0; }
+.cliffhanger { background: rgba(231,76,60,0.2); padding:20px 25px; margin:30px 0 10px; border-left:5px solid #e74c3c; font-weight:bold; font-size:1.1em; color:#fff; backdrop-filter:blur(10px);}
+.reference { background: rgba(149,165,166,0.2); padding:15px 20px; margin:25px 0 10px; border-left:4px solid #95a5a6; font-size:0.85em; line-height:1.6; color:rgba(255,255,255,0.7); font-style:italic; backdrop-filter:blur(10px);}
+.reference::before { content:"📚 "; margin-right:5px; }
 
 /* ===============================
-   NAVIGATION BUTTONS
+   LOGIN / REGISTER POPUP
 =============================== */
-.swiper-button-next,
-.swiper-button-prev {
-  bottom: 5%;
-  top: unset;
-  background-color: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(20px);
-  height: 85px;
-  width: 85px;
-  line-height: 85px;
-  border-radius: 50%;
-  transition: all 0.4s;
-}
-
-.swiper-button-next {
-  right: 50px;
-}
-
-.swiper-button-prev {
-  left: 50px;
-}
-
-.swiper-button-next::after {
-  content: "\f061";
-  font-family: "Font Awesome 6 Free";
-  font-weight: 900;
-  color: #ffffff;
-  font-size: 40px;
-}
-
-.swiper-button-prev::after {
-  content: "\f060";
-  font-family: "Font Awesome 6 Free";
-  font-weight: 900;
-  color: #ffffff;
-  font-size: 40px;
-}
-
-.swiper-button-next:hover,
-.swiper-button-prev:hover {
-  background: rgba(255, 255, 255, 0.2);
-}
-
-/* ===============================
-   PROGRESS BAR & PAGINATION
-=============================== */
-.slider-pagination-area {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  bottom: 80px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 500px;
-  z-index: 10;
-}
-
-.slider-pagination-area .slide-range {
-  font-size: 20px;
-  font-weight: 500;
-  color: #ffffff;
-  position: absolute;
-}
-
-.slider-pagination-area .slide-range.one {
-  left: -50px;
-}
-
-.slider-pagination-area .slide-range.total {
-  right: -50px;
-}
-
-.slider-pagination-area .swiper-pagination {
-  width: 500px !important;
-  position: static !important;
-}
-
-.swiper-pagination-progressbar {
-  background: rgba(255, 255, 255, 0.3);
-}
-
-.swiper-pagination-progressbar-fill {
-  background: #ffffff !important;
-}
-
-/* ===============================
-   LOCKED CHAPTER POPUP
-=============================== */
-#registerPopup {
+#authPopup {
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.85);
+  background: rgba(0,0,0,0.85);
   justify-content: center;
   align-items: center;
   z-index: 999;
   backdrop-filter: blur(10px);
 }
 
-#registerPopupContent {
+#authPopupContent {
   background: #fff;
   padding: 40px;
   max-width: 450px;
@@ -504,7 +334,16 @@ h1, h2, h3 {
   box-shadow: 0 20px 60px rgba(0,0,0,0.3);
 }
 
-#registerPopup button {
+#authPopupContent h2 { margin-bottom: 20px; }
+#authPopupContent input {
+  width: 100%;
+  padding: 12px 15px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+#authPopupContent button {
   margin-top: 20px;
   padding: 12px 24px;
   font-size: 1em;
@@ -517,141 +356,21 @@ h1, h2, h3 {
   font-weight: 600;
 }
 
-#registerPopup button:hover {
+#authPopupContent button:hover {
   background: #2980b9;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(52, 152, 219, 0.4);
+  box-shadow: 0 4px 12px rgba(52,152,219,0.4);
 }
 
-/* ===============================
-   RESPONSIVE DESIGN - Tablet
-   🔥 UPDATED: Adjusted for new width constraint
-=============================== */
-@media (max-width: 991px) {
-  .swiper-content {
-    top: 80px;
-    left: 60px;
-    width: 650px;
-    padding: 30px;
-    max-height: calc(100vh - 160px);
-  }
-
-  .chapterHero {
-    font-size: 3em;
-  }
-
-  .swiper-button-next,
-  .swiper-button-prev {
-    height: 60px;
-    width: 60px;
-    background: rgba(255, 255, 255, 0.3);
-  }
-
-  .swiper-button-next::after,
-  .swiper-button-prev::after {
-    font-size: 30px;
-  }
-
-  .slider-pagination-area {
-    width: 300px;
-  }
-
-  .slider-pagination-area .swiper-pagination {
-    width: 300px !important;
-  }
-
-  .chapter-nav-content {
-    width: 300px;
-    right: -300px;
-  }
-
-  .chapter-navigation.open .chapter-nav-toggle {
-    right: 320px;
-  }
-}
+.auth-tabs { display: flex; justify-content: center; margin-bottom: 20px; gap: 10px; }
+.auth-tab { cursor: pointer; padding: 10px 20px; border-radius: 6px; font-weight: 600; transition: all 0.3s; }
+.auth-tab.active { background: #3498db; color: #fff; }
 
 /* ===============================
-   RESPONSIVE DESIGN - Mobile
-   🔥 UPDATED: Full width on mobile for usability
+   RESPONSIVE DESIGN
 =============================== */
 @media screen and (max-width: 767px) {
-  .swiper-content {
-    top: 60px;
-    left: 20px;
-    right: 20px;
-    width: auto;
-    max-height: calc(100vh - 140px);
-    padding: 20px;
-  }
-
-  .chapterHero {
-    font-size: 2.2em;
-  }
-
-  .story {
-    font-size: 1.05em;
-  }
-
-  .pullQuote {
-    font-size: 1.1em;
-    padding: 15px 20px;
-  }
-
-  .slider-pagination-area {
-    display: none;
-  }
-
-  .swiper-button-next,
-  .swiper-button-prev {
-    height: 50px;
-    width: 50px;
-    bottom: 20px;
-  }
-
-  .swiper-button-next {
-    right: 20px;
-  }
-
-  .swiper-button-prev {
-    left: 20px;
-  }
-
-  .swiper-button-next::after,
-  .swiper-button-prev::after {
-    font-size: 24px;
-  }
-
-  .reference {
-    font-size: 0.8em;
-    padding: 12px 15px;
-  }
-
-  /* Mobile chapter navigation */
-  .chapter-nav-toggle {
-    right: 15px;
-    top: 15px;
-    width: 45px;
-    height: 45px;
-  }
-
-  .chapter-nav-content {
-    width: 280px;
-    right: -280px;
-  }
-
-  .chapter-navigation.open .chapter-nav-toggle {
-    right: 295px;
-  }
-
-  .chapter-nav-header {
-    padding: 20px 15px;
-  }
-
-  .chapter-item {
-    padding: 12px 15px;
-  }
-
-  .chapter-title {
-    font-size: 0.9em;
-  }
+  .swiper-content { top: 60px; left: 20px; right: 20px; width: auto; max-height: calc(100vh - 140px); padding: 20px;}
+  .chapterHero { font-size: 2.2em; }
+  .story { font-size: 1.05em; }
 }
