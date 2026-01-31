@@ -1,4 +1,3 @@
-@@ -1,114 +1,480 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
 
 /* ===============================
@@ -6,7 +5,6 @@
 =============================== */
 body {
   margin: 0;
-  font-family: 'Segoe UI', Tahoma, sans-serif;
   font-family: 'Inter', sans-serif;
   background: #f4f6f8;
   color: #222;
@@ -22,10 +20,8 @@ h1, h2, h3 {
 }
 
 /* ===============================
-   SWIPER LAYOUT
    FULLSCREEN SLIDER LAYOUT
 =============================== */
-.swiper-container {
 .creative-fullpage--slider {
   background-color: #ffffff;
   z-index: 2;
@@ -46,11 +42,7 @@ h1, h2, h3 {
 .swiper-slide {
   position: relative;
   display: flex;
-  flex-direction: column;
   justify-content: center;
-  padding: 60px 20px;
-  box-sizing: border-box;
-  background: #ffffff;
   text-align: left;
   flex-direction: column;
   overflow: hidden;
@@ -105,14 +97,10 @@ h1, h2, h3 {
   padding-right: 20px;
 }
 
-/* Scrollbar styling */
-.swiper-slide::-webkit-scrollbar {
 /* Scrollbar for content */
 .swiper-content::-webkit-scrollbar {
   width: 6px;
 }
-.swiper-slide::-webkit-scrollbar-thumb {
-  background: #ccc;
 .swiper-content::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.3);
   border-radius: 3px;
@@ -142,7 +130,6 @@ h1, h2, h3 {
 }
 
 /* ===============================
-   BOOK TAG STYLES
    FLOATING CHAPTER NAVIGATION
 =============================== */
 .chapter-navigation {
@@ -154,12 +141,6 @@ h1, h2, h3 {
   pointer-events: none;
 }
 
-.chapterHero {
-  font-size: 2.2em;
-  font-weight: bold;
-  text-align: center;
-  margin-bottom: 30px;
-  color: #2c3e50;
 .chapter-nav-toggle {
   position: absolute;
   right: 20px;
@@ -325,12 +306,8 @@ h1, h2, h3 {
 }
 
 .pullQuote {
-  font-size: 1.2em;
   font-size: 1.3em;
   font-style: italic;
-  background: #eef6ff;
-  padding: 15px 20px;
-  margin: 25px 0;
   background: rgba(52, 152, 219, 0.2);
   padding: 20px 25px;
   margin: 30px 0;
@@ -341,9 +318,6 @@ h1, h2, h3 {
 }
 
 .lesson {
-  background: #fff9e6;
-  padding: 15px 20px;
-  margin: 20px 0;
   background: rgba(241, 196, 15, 0.2);
   padding: 20px 25px;
   margin: 25px 0;
@@ -354,9 +328,6 @@ h1, h2, h3 {
 }
 
 .tools {
-  background: #e8f8f5;
-  padding: 15px 20px;
-  margin: 20px 0;
   background: rgba(26, 188, 156, 0.2);
   padding: 20px 25px;
   margin: 25px 0;
@@ -366,9 +337,6 @@ h1, h2, h3 {
 }
 
 .actionStep {
-  background: #fdebd0;
-  padding: 15px 20px;
-  margin: 20px 0;
   background: rgba(230, 126, 34, 0.2);
   padding: 20px 25px;
   margin: 25px 0;
@@ -379,9 +347,6 @@ h1, h2, h3 {
 }
 
 .milestone {
-  background: #f5eef8;
-  padding: 15px 20px;
-  margin: 20px 0;
   background: rgba(155, 89, 182, 0.2);
   padding: 20px 25px;
   margin: 25px 0;
@@ -392,14 +357,11 @@ h1, h2, h3 {
 
 .miniStory {
   font-style: italic;
-  margin: 15px 0;
   margin: 20px 0;
   color: #FFFFFFB0;
 }
 
 .cliffhanger {
-  background: #fdecea;
-  padding: 15px 20px;
   background: rgba(231, 76, 60, 0.2);
   padding: 20px 25px;
   margin: 30px 0 10px;
@@ -516,11 +478,12 @@ h1, h2, h3 {
 }
 
 /* ===============================
-@@ -118,67 +484,166 @@ h1, h2, h3 {
+   LOCKED CHAPTER POPUP
+=============================== */
+#registerPopup {
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.65);
   background: rgba(0, 0, 0, 0.85);
   justify-content: center;
   align-items: center;
@@ -530,20 +493,16 @@ h1, h2, h3 {
 
 #registerPopupContent {
   background: #fff;
-  padding: 30px;
-  max-width: 400px;
   padding: 40px;
   max-width: 450px;
   width: 90%;
   border-radius: 12px;
   text-align: center;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
   box-shadow: 0 20px 60px rgba(0,0,0,0.3);
 }
 
 #registerPopup button {
   margin-top: 20px;
-  padding: 10px 18px;
   padding: 12px 24px;
   font-size: 1em;
   border: none;
@@ -562,13 +521,8 @@ h1, h2, h3 {
 }
 
 /* ===============================
-   SWIPER NAVIGATION COLORS
    RESPONSIVE DESIGN - Tablet
 =============================== */
-.swiper-button-next,
-.swiper-button-prev {
-  color: #3498db;
-}
 @media (max-width: 991px) {
   .swiper-content {
     left: 40px;
@@ -576,8 +530,6 @@ h1, h2, h3 {
     max-width: 100%;
   }
 
-.swiper-pagination-progressbar-fill {
-  background: #3498db !important;
   .chapterHero {
     font-size: 3em;
   }
@@ -613,12 +565,8 @@ h1, h2, h3 {
 }
 
 /* ===============================
-   RESPONSIVE DESIGN
    RESPONSIVE DESIGN - Mobile
 =============================== */
-@media (max-width: 768px) {
-  .swiper-slide {
-    padding: 40px 18px;
 @media screen and (max-width: 767px) {
   .swiper-content {
     left: 20px;
@@ -629,7 +577,6 @@ h1, h2, h3 {
   }
 
   .chapterHero {
-    font-size: 1.6em;
     font-size: 2.2em;
   }
 
@@ -638,7 +585,6 @@ h1, h2, h3 {
   }
 
   .pullQuote {
-    font-size: 1.05em;
     font-size: 1.1em;
     padding: 15px 20px;
   }
