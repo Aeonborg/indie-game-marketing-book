@@ -1,41 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Indie Game Marketing Book</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Indie Game Marketing — The Ultimate Guide</title>
+
   <!-- Swiper CSS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+
+  <!-- Your Styles -->
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Prevent favicon 404 error -->
+  <link rel="icon" href="data:," />
 </head>
 <body>
 
-  <!-- Full Page Slider -->
+  <!-- 🔥 Fullscreen Book Slider -->
   <section class="swiper-container">
     <div class="swiper-wrapper" id="bookSlides">
-      <!-- Slides (Chapters) will be loaded by JS -->
+      <!-- Chapters from Supabase will load here -->
+      <div class="swiper-slide" style="text-align:center;">
+        <h1>Loading Book...</h1>
+      </div>
     </div>
 
     <!-- Navigation -->
     <div class="swiper-button-next"></div>
     <div class="swiper-button-prev"></div>
 
-    <!-- Progress Bar -->
+    <!-- Progress bar -->
     <div class="swiper-pagination swiper-pagination-progressbar"></div>
   </section>
 
-  <!-- Register Popup -->
+  <!-- 🔒 Register Popup -->
   <div id="registerPopup">
     <div id="registerPopupContent">
       <h2>Register to Continue</h2>
-      <p>To access Chapter 4 and beyond, please register or login.</p>
+      <p>You must register or log in to read locked chapters.</p>
       <button onclick="closePopup()">Close</button>
     </div>
   </div>
 
+  <!-- 🔹 Swiper JS -->
   <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+
+  <!-- 🔹 Supabase v2 -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- 🔹 Your App Logic -->
   <script src="script.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 </body>
 </html>
