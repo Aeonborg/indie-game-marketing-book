@@ -86,7 +86,7 @@ h1, h2, h3 {
 =============================== */
 .swiper-content {
   position: absolute;
-  top: 10%;  /* Move content higher - was 50% */
+  top: 1%;  /* Move content higher - was 50% */
   transform: translateY(-50%);
   left: 120px;  /* More left margin */
   width: 850px;  /* Wider for better layout */
@@ -126,7 +126,7 @@ h1, h2, h3 {
 /* Loading State */
 .loading-content {
   position: absolute;
-  top: 50%;
+  top: 1%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 2;
