@@ -227,7 +227,7 @@ h1, h2, h3 {
 }
 
 .chapter-item.locked {
-  opacity: 0.8;
+  opacity: 0.9;
 }
 
 .chapter-item.locked:hover {
@@ -258,9 +258,22 @@ h1, h2, h3 {
   color: rgba(255, 255, 255, 0.9);
 }
 
+/* Badges */
 .premium-badge {
   display: inline-block;
   background: linear-gradient(135deg, #f39c12, #e67e22);
+  color: white;
+  font-size: 0.7em;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  margin-top: 4px;
+}
+
+.free-badge {
+  display: inline-block;
+  background: linear-gradient(135deg, #2ecc71, #27ae60);
   color: white;
   font-size: 0.7em;
   padding: 2px 8px;
@@ -279,6 +292,11 @@ h1, h2, h3 {
 
 .chapter-lock {
   color: #f39c12;
+  font-size: 14px;
+}
+
+.chapter-open {
+  color: #2ecc71;
   font-size: 14px;
 }
 
