@@ -82,15 +82,16 @@ h1, h2, h3 {
 
 /* ===============================
    SWIPER CONTENT - Text Overlay
+   🔥 UPDATED: Content now constrained to left area for better readability
 =============================== */
 .swiper-content {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
   left: 80px;
-  right: 80px;
+  width: 650px;  /* Fixed width instead of stretching across */
+  max-width: calc(100vw - 160px);  /* Responsive safety net */
   z-index: 2;
-  max-width: 800px;
   max-height: 85vh;
   overflow-y: auto;
   overflow-x: hidden;
@@ -522,12 +523,13 @@ h1, h2, h3 {
 
 /* ===============================
    RESPONSIVE DESIGN - Tablet
+   🔥 UPDATED: Adjusted for new width constraint
 =============================== */
 @media (max-width: 991px) {
   .swiper-content {
     left: 40px;
-    right: 40px;
-    max-width: 100%;
+    width: 550px;  /* Slightly smaller for tablets */
+    max-width: calc(100vw - 80px);
   }
 
   .chapterHero {
@@ -566,11 +568,14 @@ h1, h2, h3 {
 
 /* ===============================
    RESPONSIVE DESIGN - Mobile
+   🔥 UPDATED: Full width on mobile for usability
 =============================== */
 @media screen and (max-width: 767px) {
   .swiper-content {
     left: 20px;
     right: 20px;
+    width: auto;  /* Full width on mobile */
+    max-width: calc(100vw - 40px);
     top: 80px;
     transform: none;
     max-height: calc(100vh - 200px);
