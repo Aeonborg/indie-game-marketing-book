@@ -73,12 +73,29 @@
 
   </div>
 
-  <!-- 🔒 Register Popup -->
+  <!-- 🔒 Updated Register Popup with Cancel Button -->
   <div id="registerPopup">
     <div id="registerPopupContent">
-      <h2>Register to Continue</h2>
-      <p>You must register or log in to read locked chapters.</p>
-      <button onclick="closePopup()">Close</button>
+      <div class="popup-icon">
+        <i class="fas fa-lock"></i>
+      </div>
+      <h2>Premium Content Locked</h2>
+      <p>This chapter is part of our premium content. Register or log in to unlock:</p>
+      <ul class="premium-features">
+        <li><i class="fas fa-check"></i> Access to all chapters</li>
+        <li><i class="fas fa-check"></i> Exclusive case studies</li>
+        <li><i class="fas fa-check"></i> Downloadable resources</li>
+        <li><i class="fas fa-check"></i> Community access</li>
+      </ul>
+      <div class="popup-buttons">
+        <button class="popup-cancel-btn" onclick="closePopup()">
+          <i class="fas fa-times"></i> Cancel
+        </button>
+        <button class="popup-register-btn" onclick="registerUser()">
+          <i class="fas fa-user-plus"></i> Register Now
+        </button>
+      </div>
+      <p class="popup-login">Already have an account? <a href="#" onclick="showLogin()">Log in here</a></p>
     </div>
   </div>
 
