@@ -4,6 +4,7 @@
 const SUPABASE_URL = "https://yapeslxvrhvxbramrjhh.supabase.co";
 const SUPABASE_ANON_KEY = "sb_publishable_k0IQraaeYBMuQ3vs0-D66Q_PXNKT228";
 
+// Use Supabase v2 client from CDN global
 const { createClient } = supabase;
 const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
@@ -13,6 +14,7 @@ let chaptersData = [];
 
 // ===============================
 // 📹 CUSTOM TAG PARSER
+// Converts ~story~text~~story~ into styled HTML
 // ===============================
 function parseTags(text) {
   const regex = /~(\w+)~([\s\S]*?)~~\1~/g;
@@ -28,25 +30,27 @@ function parseTags(text) {
 
 // ===============================
 // 📹 BACKGROUND IMAGE SELECTION
+// Returns appropriate background based on chapter
 // ===============================
 function getBackgroundImage(chapterNumber) {
   const backgrounds = [
-    'https://images.unsplash.com/photo-1511512578047-dfb367046420?w=1920&q=80',
-    'https://images.unsplash.com/photo-1552820728-8b83bb6b773f?w=1920&q=80',
-    'https://images.unsplash.com/photo-1432821596592-e2c18b78144f?w=1920&q=80',
-    'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1920&q=80',
-    'https://images.unsplash.com/photo-1551434678-e076c223a692?w=1920&q=80',
-    'https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=1920&q=80',
-    'https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?w=1920&q=80',
-    'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=1920&q=80',
-    'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1920&q=80',
-    'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1920&q=80',
-    'https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=1920&q=80',
-    'https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=1920&q=80',
-    'https://images.unsplash.com/photo-1488229297570-58520851e868?w=1920&q=80',
-    'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=1920&q=80'
+    'https://images.unsplash.com/photo-1511512578047-dfb367046420?w=1920&q=80', // Ch 1 - Wake up call
+    'https://images.unsplash.com/photo-1552820728-8b83bb6b773f?w=1920&q=80', // Ch 2 - Head start
+    'https://images.unsplash.com/photo-1432821596592-e2c18b78144f?w=1920&q=80', // Ch 3 - Content
+    'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=1920&q=80', // Ch 4 - Community
+    'https://images.unsplash.com/photo-1551434678-e076c223a692?w=1920&q=80', // Ch 5 - Steam
+    'https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=1920&q=80', // Ch 6 - Demo
+    'https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?w=1920&q=80', // Ch 7 - Press
+    'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=1920&q=80', // Ch 8 - Launch
+    'https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=1920&q=80', // Ch 9 - Post-launch
+    'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=1920&q=80', // Ch 10 - Things go wrong
+    'https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=1920&q=80', // Ch 11 - Sustainable
+    'https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=1920&q=80', // Ch 12 - Second game
+    'https://images.unsplash.com/photo-1488229297570-58520851e868?w=1920&q=80', // Ch 13 - Resources
+    'https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?w=1920&q=80'  // Ch 14 - Case studies
   ];
-
+  
+  // Return corresponding background or default to first one
   return backgrounds[chapterNumber - 1] || backgrounds[0];
 }
 
@@ -61,15 +65,25 @@ function toggleChapterNav() {
 function goToChapter(index) {
   if (swiperInstance) {
     swiperInstance.slideTo(index);
-    if (window.innerWidth < 768) toggleChapterNav();
+    // Close navigation on mobile after selection
+    if (window.innerWidth < 768) {
+      toggleChapterNav();
+    }
   }
 }
 
 function updateActiveChapter(index) {
-  document.querySelectorAll('.chapter-item').forEach(item => item.classList.remove('active'));
+  // Remove active class from all chapter items
+  document.querySelectorAll('.chapter-item').forEach(item => {
+    item.classList.remove('active');
+  });
+  
+  // Add active class to current chapter
   const activeItem = document.querySelector(`.chapter-item[data-index="${index}"]`);
   if (activeItem) {
     activeItem.classList.add('active');
+    
+    // Scroll chapter into view in the navigation
     activeItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
 }
@@ -80,25 +94,33 @@ function updateActiveChapter(index) {
 function buildChapterNavigation(chapters) {
   const chapterList = document.getElementById('chapterList');
   chapterList.innerHTML = '';
-
+  
   chapters.forEach((chapter, index) => {
     const item = document.createElement('div');
     item.className = `chapter-item ${chapter.is_free ? '' : 'locked'}`;
     item.setAttribute('data-index', index);
-
-    let displayTitle = chapter.title.replace(/^Chapter \d+:\s*/i, '');
-
+    
+    // Extract clean chapter title (remove "Chapter X:" prefix if exists)
+    let displayTitle = chapter.title;
+    const titleMatch = chapter.title.match(/Chapter \d+:\s*(.+)/i);
+    if (titleMatch) {
+      displayTitle = titleMatch[1];
+    }
+    
     item.innerHTML = `
       <div class="chapter-number">${chapter.chapter_number.toString().padStart(2, '0')}</div>
       <div class="chapter-title">${displayTitle}</div>
       ${!chapter.is_free ? '<i class="fas fa-lock chapter-lock"></i>' : ''}
     `;
-
+    
     item.addEventListener('click', () => {
-      if (chapter.is_free) goToChapter(index);
-      else showPopup();
+      if (chapter.is_free) {
+        goToChapter(index);
+      } else {
+        showPopup();
+      }
     });
-
+    
     chapterList.appendChild(item);
   });
 }
@@ -116,8 +138,8 @@ async function loadChapters() {
 
   if (error) {
     console.error("❌ Supabase error:", error);
-    document.getElementById('bookSlides').innerHTML = `
-      <div class="swiper-slide">
+    document.getElementById('bookSlides').innerHTML =
+      `<div class="swiper-slide">
         <div class="slider-inner">
           <div class="loading-content">
             <h2>Error loading chapters.</h2>
@@ -130,26 +152,26 @@ async function loadChapters() {
 
   totalChapters = data.length;
   chaptersData = data;
-
   const bookSlides = document.getElementById('bookSlides');
   bookSlides.innerHTML = "";
 
-  data.forEach(chapter => {
+  data.forEach((chapter) => {
     const slide = document.createElement('div');
     slide.classList.add('swiper-slide');
     slide.id = `chapter${chapter.chapter_number}`;
 
-    const bg = getBackgroundImage(chapter.chapter_number);
+    const backgroundUrl = getBackgroundImage(chapter.chapter_number);
 
+    // 🔒 LOCKED CHAPTER
     if (!chapter.is_free) {
       slide.innerHTML = `
         <div class="slider-inner" data-swiper-parallax="100">
-          <img src="${bg}" class="background-image">
+          <img src="${backgroundUrl}" alt="Chapter ${chapter.chapter_number}" class="background-image">
           <div class="swiper-content" data-swiper-parallax="2000">
             <div class="chapterHero">${chapter.title}</div>
-            <div style="text-align:center; padding:40px 0;">
-              <p style="color:#e74c3c; font-size:1.5em; margin-bottom:20px;">🔒 This chapter is locked.</p>
-              <p style="color: rgba(255,255,255,0.8); margin-bottom:30px;">Login or register to continue reading this guide.</p>
+            <div style="text-align:center; padding: 40px 0;">
+              <p style="color:#e74c3c; font-size:1.5em; margin-bottom: 20px;">🔒 This chapter is locked.</p>
+              <p style="color: rgba(255,255,255,0.8); margin-bottom: 30px;">Register or login to continue reading this guide.</p>
               <button onclick="showPopup()" style="
                 background: #3498db;
                 color: white;
@@ -163,25 +185,33 @@ async function loadChapters() {
               ">Unlock Content</button>
             </div>
           </div>
-        </div>`;
-    } else {
+        </div>
+      `;
+    } 
+    // 📖 FREE CHAPTER
+    else {
       slide.innerHTML = `
         <div class="slider-inner" data-swiper-parallax="100">
-          <img src="${bg}" class="background-image">
+          <img src="${backgroundUrl}" alt="Chapter ${chapter.chapter_number}" class="background-image">
           <div class="swiper-content" data-swiper-parallax="2000">
             <div class="chapterHero">${chapter.title}</div>
             ${parseTags(chapter.content)}
           </div>
-        </div>`;
+        </div>
+      `;
     }
 
     bookSlides.appendChild(slide);
   });
 
+  // Build chapter navigation
   buildChapterNavigation(data);
-  document.querySelector('.slide-range.total').textContent = totalChapters.toString().padStart(2, '0');
 
-  initSwiper();
+  // Update total chapter number in pagination
+  document.querySelector('.slide-range.total').textContent = 
+    totalChapters.toString().padStart(2, '0');
+
+  initSwiper(); // initialize slider after content loads
 }
 
 // ===============================
@@ -194,27 +224,52 @@ function initSwiper() {
     parallax: true,
     speed: 1600,
     loop: false,
-    keyboard: { enabled: true },
+    keyboard: {
+      enabled: true,
+      onlyInViewport: true
+    },
+    // IMPORTANT: Disable mousewheel horizontal scrolling
+    // This allows vertical scrolling inside content
+    mousewheel: false,
+    
+    // Enable touch gestures for left/right swipe only
+    touchRatio: 1,
+    touchAngle: 45, // Only swipe when angle is close to horizontal
+    
     navigation: {
       nextEl: '.swiper-button-next',
       prevEl: '.swiper-button-prev'
     },
-    pagination: { el: '.swiper-pagination', type: 'progressbar' },
+    pagination: {
+      el: '.swiper-pagination',
+      type: 'progressbar'
+    },
     on: {
       slideChange: function () {
+        // Update current slide number
         const currentSlide = (this.activeIndex + 1).toString().padStart(2, '0');
         document.querySelector('.slide-range.one').textContent = currentSlide;
+        
+        // Update active chapter in navigation
         updateActiveChapter(this.activeIndex);
-        const content = this.slides[this.activeIndex].querySelector('.swiper-content');
-        if (content) content.scrollTop = 0;
+        
+        // Scroll content back to top when changing chapters
+        const currentSlideElement = this.slides[this.activeIndex];
+        const contentElement = currentSlideElement.querySelector('.swiper-content');
+        if (contentElement) {
+          contentElement.scrollTop = 0;
+        }
       },
-      init: function () { updateActiveChapter(0); }
+      init: function() {
+        // Set initial active chapter
+        updateActiveChapter(0);
+      }
     }
   });
 }
 
 // ===============================
-// 📹 LOGIN / REGISTER POPUP
+// 📹 REGISTER POPUP CONTROLS
 // ===============================
 function showPopup() {
   document.getElementById('registerPopup').style.display = 'flex';
@@ -224,68 +279,15 @@ function closePopup() {
   document.getElementById('registerPopup').style.display = 'none';
 }
 
-// Toggle login/register forms
-const loginForm = document.getElementById('loginForm');
-const registerForm = document.getElementById('registerForm');
-
-document.getElementById('loginTabBtn').addEventListener('click', () => {
-  loginForm.style.display = 'block';
-  registerForm.style.display = 'none';
-});
-
-document.getElementById('registerTabBtn').addEventListener('click', () => {
-  loginForm.style.display = 'none';
-  registerForm.style.display = 'block';
-});
-
 // ===============================
-// 📹 SUPABASE AUTH - LOGIN
+// 📹 CLOSE NAV ON ESCAPE KEY
 // ===============================
-loginForm.addEventListener('submit', async (e) => {
-  e.preventDefault();
-  const email = document.getElementById('loginEmail').value;
-  const password = document.getElementById('loginPassword').value;
-
-  const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
-
-  if (error) alert(error.message);
-  else {
-    alert(`Welcome back!`);
-    closePopup();
-  }
-});
-
-// ===============================
-// 📹 SUPABASE AUTH - REGISTER
-// ===============================
-registerForm.addEventListener('submit', async (e) => {
-  e.preventDefault();
-  const email = document.getElementById('registerEmail').value;
-  const password = document.getElementById('registerPassword').value;
-  const username = document.getElementById('registerUsername').value;
-  const name = document.getElementById('registerName').value;
-
-  const { data, error } = await supabaseClient.auth.signUp({
-    email,
-    password,
-    options: { data: { username, name } }
-  });
-
-  if (error) alert(error.message);
-  else {
-    alert(`Registration successful! Please check your email to confirm.`);
-    closePopup();
-  }
-});
-
-// ===============================
-// 📹 ESC TO CLOSE NAV
-// ===============================
-document.addEventListener('keydown', e => {
+document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape') {
     const nav = document.getElementById('chapterNav');
-    if (nav.classList.contains('open')) toggleChapterNav();
-    closePopup();
+    if (nav.classList.contains('open')) {
+      toggleChapterNav();
+    }
   }
 });
 
