@@ -82,14 +82,15 @@ h1, h2, h3 {
 
 /* ===============================
    SWIPER CONTENT - Text Overlay
+   🔥 UPDATED: Content positioned near top for optimal visibility
 =============================== */
 .swiper-content {
   position: absolute;
-  top: 100px;
+  top: 100px;  /* Fixed distance from top instead of percentage */
   left: 120px;
   width: 850px;
   z-index: 2;
-  max-height: calc(100vh - 200px);
+  max-height: calc(100vh - 200px);  /* Leave space for top and bottom */
   overflow-y: auto;
   overflow-x: hidden;
   padding: 40px;
@@ -299,6 +300,7 @@ h1, h2, h3 {
 /* ===============================
    BOOK TAG STYLES
 =============================== */
+
 .story {
   font-size: 1.15em;
   line-height: 1.8;
@@ -476,4 +478,180 @@ h1, h2, h3 {
 
 .swiper-pagination-progressbar-fill {
   background: #ffffff !important;
+}
+
+/* ===============================
+   LOCKED CHAPTER POPUP
+=============================== */
+#registerPopup {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  backdrop-filter: blur(10px);
+}
+
+#registerPopupContent {
+  background: #fff;
+  padding: 40px;
+  max-width: 450px;
+  width: 90%;
+  border-radius: 12px;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+}
+
+#registerPopup button {
+  margin-top: 20px;
+  padding: 12px 24px;
+  font-size: 1em;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  background: #3498db;
+  color: white;
+  transition: 0.2s ease;
+  font-weight: 600;
+}
+
+#registerPopup button:hover {
+  background: #2980b9;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(52, 152, 219, 0.4);
+}
+
+/* ===============================
+   RESPONSIVE DESIGN - Tablet
+   🔥 UPDATED: Adjusted for new width constraint
+=============================== */
+@media (max-width: 991px) {
+  .swiper-content {
+    top: 80px;
+    left: 60px;
+    width: 650px;
+    padding: 30px;
+    max-height: calc(100vh - 160px);
+  }
+
+  .chapterHero {
+    font-size: 3em;
+  }
+
+  .swiper-button-next,
+  .swiper-button-prev {
+    height: 60px;
+    width: 60px;
+    background: rgba(255, 255, 255, 0.3);
+  }
+
+  .swiper-button-next::after,
+  .swiper-button-prev::after {
+    font-size: 30px;
+  }
+
+  .slider-pagination-area {
+    width: 300px;
+  }
+
+  .slider-pagination-area .swiper-pagination {
+    width: 300px !important;
+  }
+
+  .chapter-nav-content {
+    width: 300px;
+    right: -300px;
+  }
+
+  .chapter-navigation.open .chapter-nav-toggle {
+    right: 320px;
+  }
+}
+
+/* ===============================
+   RESPONSIVE DESIGN - Mobile
+   🔥 UPDATED: Full width on mobile for usability
+=============================== */
+@media screen and (max-width: 767px) {
+  .swiper-content {
+    top: 60px;
+    left: 20px;
+    right: 20px;
+    width: auto;
+    max-height: calc(100vh - 140px);
+    padding: 20px;
+  }
+
+  .chapterHero {
+    font-size: 2.2em;
+  }
+
+  .story {
+    font-size: 1.05em;
+  }
+
+  .pullQuote {
+    font-size: 1.1em;
+    padding: 15px 20px;
+  }
+
+  .slider-pagination-area {
+    display: none;
+  }
+
+  .swiper-button-next,
+  .swiper-button-prev {
+    height: 50px;
+    width: 50px;
+    bottom: 20px;
+  }
+
+  .swiper-button-next {
+    right: 20px;
+  }
+
+  .swiper-button-prev {
+    left: 20px;
+  }
+
+  .swiper-button-next::after,
+  .swiper-button-prev::after {
+    font-size: 24px;
+  }
+
+  .reference {
+    font-size: 0.8em;
+    padding: 12px 15px;
+  }
+
+  /* Mobile chapter navigation */
+  .chapter-nav-toggle {
+    right: 15px;
+    top: 15px;
+    width: 45px;
+    height: 45px;
+  }
+
+  .chapter-nav-content {
+    width: 280px;
+    right: -280px;
+  }
+
+  .chapter-navigation.open .chapter-nav-toggle {
+    right: 295px;
+  }
+
+  .chapter-nav-header {
+    padding: 20px 15px;
+  }
+
+  .chapter-item {
+    padding: 12px 15px;
+  }
+
+  .chapter-title {
+    font-size: 0.9em;
+  }
 }
