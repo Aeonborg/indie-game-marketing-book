@@ -68,35 +68,12 @@
     </div>
   </section>
 
-  <!-- 🔒 Login/Register Popup -->
+  <!-- 🔒 Register Popup -->
   <div id="registerPopup">
     <div id="registerPopupContent">
-      <h2>Please login or register to continue</h2>
-
-      <!-- Tabs -->
-      <div style="display:flex; gap:10px; margin-bottom:15px; justify-content:center;">
-        <button id="loginTabBtn" type="button">Login</button>
-        <button id="registerTabBtn" type="button">Register</button>
-      </div>
-
-      <!-- Login Form -->
-      <form id="loginForm">
-        <input type="email" id="loginEmail" placeholder="Email" required><br>
-        <input type="password" id="loginPassword" placeholder="Password" required><br>
-        <button type="submit">Login</button>
-        <button type="button" onclick="closePopup()">Cancel</button>
-      </form>
-
-      <!-- Register Form -->
-      <form id="registerForm" style="display:none;">
-        <input type="text" id="registerName" placeholder="Full Name" required><br>
-        <input type="text" id="registerUsername" placeholder="Username" required><br>
-        <input type="email" id="registerEmail" placeholder="Email" required><br>
-        <input type="password" id="registerPassword" placeholder="Password" required><br>
-        <button type="submit">Register</button>
-        <button type="button" onclick="closePopup()">Cancel</button>
-      </form>
-
+      <h2>Register to Continue</h2>
+      <p>You must register or log in to read locked chapters.</p>
+      <button onclick="closePopup()">Close</button>
     </div>
   </div>
 
