@@ -15,14 +15,35 @@ let chaptersData = [];
 // ===============================
 // 📹 CUSTOM TAG PARSER
 // Converts ~story~text~~story~ into styled HTML
+// If no tags found, displays as plain text
 // ===============================
 function parseTags(text) {
   const regex = /~(\w+)~([\s\S]*?)~~\1~/g;
   let html = '';
   let match;
+  let hasMatches = false;
 
   while ((match = regex.exec(text)) !== null) {
     html += `<div class="${match[1]}">${match[2].trim()}</div>\n`;
+    hasMatches = true;
+  }
+
+  // If no custom tags found, display as plain text with basic formatting
+  if (!hasMatches) {
+    // Convert line breaks to <br> and preserve paragraphs
+    const formattedText = text
+      .trim()
+      .split('\n\n')  // Split by double line breaks (paragraphs)
+      .map(paragraph => {
+        const trimmed = paragraph.trim();
+        if (trimmed) {
+          return `<p style="margin-bottom: 20px; line-height: 1.8; color: rgba(255,255,255,0.9);">${trimmed.replace(/\n/g, '<br>')}</p>`;
+        }
+        return '';
+      })
+      .join('');
+    
+    html = `<div class="plain-text">${formattedText}</div>`;
   }
 
   return html;
