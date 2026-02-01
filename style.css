@@ -305,10 +305,8 @@ h1, h2, h3 {
   font-size: 1.15em;
   line-height: 1.8;
   color: rgba(255, 255, 255, 0.9);
-}
-
-.plain-text p {
-  margin-bottom: 20px;
+  white-space: pre-wrap;  /* Preserves all whitespace and line breaks */
+  word-wrap: break-word;  /* Prevents horizontal overflow */
 }
 
 .story {
