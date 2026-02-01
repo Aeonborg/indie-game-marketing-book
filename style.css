@@ -301,6 +301,16 @@ h1, h2, h3 {
    BOOK TAG STYLES
 =============================== */
 
+.plain-text {
+  font-size: 1.15em;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.plain-text p {
+  margin-bottom: 20px;
+}
+
 .story {
   font-size: 1.15em;
   line-height: 1.8;
