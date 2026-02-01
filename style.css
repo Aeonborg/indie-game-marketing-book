@@ -114,7 +114,7 @@ h1, h2, h3 {
 
 /* Chapter Title */
 .chapterHero {
-  font-size: 4em;
+  font-size: 1em;
   font-weight: 900;
   margin-bottom: 30px;
   color: #ffffff;
@@ -300,14 +300,6 @@ h1, h2, h3 {
 /* ===============================
    BOOK TAG STYLES
 =============================== */
-
-.plain-text {
-  font-size: 1.15em;
-  line-height: 1.8;
-  color: rgba(255, 255, 255, 0.9);
-  white-space: pre-wrap;  /* Preserves all whitespace and line breaks */
-  word-wrap: break-word;  /* Prevents horizontal overflow */
-}
 
 .story {
   font-size: 1.15em;
@@ -593,7 +585,7 @@ h1, h2, h3 {
   }
 
   .chapterHero {
-    font-size: .2em;
+    font-size: 2.2em;
   }
 
   .story {
