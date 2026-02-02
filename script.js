@@ -1,8 +1,8 @@
 // ===============================
 // 📹 SUPABASE CONNECTION
 // ===============================
-const SUPABASE_URL = "https://cfsdfruchtwomhhdcith.supabase.co";
-const SUPABASE_ANON_KEY = "sb_publishable_eYTtMbBHslU7rRy1vykjPg_8rDXmCJJ";
+const SUPABASE_URL = document.body.dataset.supabaseUrl;
+const SUPABASE_ANON_KEY = document.body.dataset.supabaseKey;
 // Use Supabase v2 client from CDN global
 const { createClient } = supabase;
 const supabaseClient = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
