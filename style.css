@@ -655,3 +655,22 @@ h1, h2, h3 {
     font-size: 0.9em;
   }
 }
+.book-header {
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  text-align: center;
+  pointer-events: none; /* prevents blocking swiper clicks */
+}
+
+.book-title {
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 1px;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.6);
+}
+
+
