@@ -658,7 +658,7 @@ h1, h2, h3 {
 =============================== */
 .book-header {
   position: absolute;
-  top: 40px;      
+  top: 10px;      
   left: 120px;    
   width: 850px;   
   text-align: center;
@@ -680,7 +680,7 @@ h1, h2, h3 {
   .book-header {
     left: 60px;
     width: 650px;
-    top: 30px;
+    10: 30px;
   }
 
   .book-title {
@@ -694,7 +694,7 @@ h1, h2, h3 {
     left: 20px;
     right: 20px;
     width: auto;
-    top: 25px;
+    top: 10px;
   }
 
   .book-title {
