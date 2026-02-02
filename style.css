@@ -82,15 +82,14 @@ h1, h2, h3 {
 
 /* ===============================
    SWIPER CONTENT - Text Overlay
-   🔥 UPDATED: Content positioned near top for optimal visibility
 =============================== */
 .swiper-content {
   position: absolute;
-  top: 100px;  /* Fixed distance from top instead of percentage */
+  top: 100px;  
   left: 120px;
   width: 850px;
   z-index: 2;
-  max-height: calc(100vh - 200px);  /* Leave space for top and bottom */
+  max-height: calc(100vh - 200px);  
   overflow-y: auto;
   overflow-x: hidden;
   padding: 40px;
@@ -525,7 +524,6 @@ h1, h2, h3 {
 
 /* ===============================
    RESPONSIVE DESIGN - Tablet
-   🔥 UPDATED: Adjusted for new width constraint
 =============================== */
 @media (max-width: 991px) {
   .swiper-content {
@@ -572,7 +570,6 @@ h1, h2, h3 {
 
 /* ===============================
    RESPONSIVE DESIGN - Mobile
-   🔥 UPDATED: Full width on mobile for usability
 =============================== */
 @media screen and (max-width: 767px) {
   .swiper-content {
@@ -653,5 +650,54 @@ h1, h2, h3 {
 
   .chapter-title {
     font-size: 0.9em;
+  }
+}
+
+/* ===============================
+   BOOK TITLE - CENTERED (NEW)
+=============================== */
+.book-header {
+  position: absolute;
+  top: 40px;      
+  left: 120px;    
+  width: 850px;   
+  text-align: center;
+  z-index: 3;     
+  pointer-events: none;
+}
+
+.book-title {
+  font-size: 2.4rem;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: 1px;
+  text-shadow: 0 6px 30px rgba(0,0,0,0.8);
+  margin: 0;
+}
+
+/* Tablet adjustments */
+@media (max-width: 991px) {
+  .book-header {
+    left: 60px;
+    width: 650px;
+    top: 30px;
+  }
+
+  .book-title {
+    font-size: 2rem;
+  }
+}
+
+/* Mobile adjustments */
+@media (max-width: 767px) {
+  .book-header {
+    left: 20px;
+    right: 20px;
+    width: auto;
+    top: 25px;
+  }
+
+  .book-title {
+    font-size: 1.6rem;
   }
 }
